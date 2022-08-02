@@ -392,8 +392,7 @@ def graph_data(dict_dfs, save=True, save_location="graphs", remove_scenario_labe
 
 # endregion
 
-def main():
-    date_folder = f"output_data/2022-07-05"
+def main(date_folder = f"output_data/2022-07-05"):
     date = os.path.basename(date_folder)
     skip_agents = []
     skip_dms = []
@@ -427,7 +426,7 @@ def main():
     )]
     
     # graph everything
-    # graph_scores(total_df, date, skip_agents)
+    graph_scores(total_df, date, skip_agents)
     pass
 
 
@@ -565,10 +564,10 @@ def final_data_table(total_df):
     pass
     
     
-def final_graphs_and_chart():
+def final_graphs_and_chart(date_folder="output_data/2022-05-30"):
     # date_folder = f"output_data/merge_to_UCB"
     # date_folder = f"output_data/merge_to_epsilons"
-    date_folder = "output_data/2022-05-30"
+    
     date = os.path.basename(date_folder) + "_new"
     
     total_df = pd.concat([pd.read_csv(f"{test_folder}/plots/plot.csv") for test_folder in glob.glob(f"{date_folder}/*/*")], ignore_index=True)
@@ -607,15 +606,15 @@ def final_graphs_and_chart():
     total_df = total_df[total_df["turn"] >= 90]
     
     # create the data table
-    # final_data_table(total_df)
+    final_data_table(total_df)
 
     # remove OAM from num distractions, it throws the scale of the graph completely off. and dont include turn 99? not sure what the second half of this statement is doing
     total_df = total_df[~(((total_df.score_type == "num_distractions") & (total_df.DM == "One-Of-Each Manager")) | ((total_df.score_type == "num_distractions") & (total_df.turn == 99)))]
     
-    total_df.to_csv("cached_final/total_df.csv")
-    print(date)
+    # total_df.to_csv("cached_final/total_df.csv")
+    # print(date)
 
-    # graph_scores(total_df, date, score_type_override=["js_dynamic_v_true"])
+    graph_scores(total_df, date, score_type_override=["js_dynamic_v_true"])
     # final_data_table(total_df)
     pass
 
@@ -627,8 +626,7 @@ def cached_graph_final():
     pass
 
 
-def appendix_graphs():
-    date_folder = "output_data/2022-05-30"
+def appendix_graphs(date_folder="output_data/2022-05-30"):
     date = os.path.basename(date_folder) + "_appendix"
     appendix_df = pd.concat([pd.read_csv(f"{test_folder}/plots/plot.csv") for test_folder in glob.glob(f"{date_folder}/*/*")], ignore_index=True)
     
@@ -650,10 +648,10 @@ def appendix_graphs():
     appendix_df = appendix_df[~(((appendix_df.score_type == "num_distractions") & (appendix_df.DM == "One-Of-Each Manager")) | ((appendix_df.score_type == "num_distractions") & (appendix_df.turn == 99)))]
     
     # write to file because the appending process at the beginning takes forever
-    appendix_df.to_csv("cached_final/appendix_df.csv")
-    print(date)
+    # appendix_df.to_csv("cached_final/appendix_df.csv")
+    # print(date)
 
-    # graph_scores(appendix_df, date, score_type_override=["js_dynamic_v_true"])
+    graph_scores(appendix_df, date, score_type_override=["js_dynamic_v_true"])
     
     pass
 
@@ -667,9 +665,11 @@ def cached_graph_appendix():
 
 if __name__ == '__main__':
     # main()
-    # final_graphs_and_chart()
+    data_folder = "output_data/2022-05-30"
+    cache_processing(data_folder, force_reprocessing=True)
+    final_graphs_and_chart(data_folder)
+    appendix_graphs(data_folder)
     # cached_graph_final()
-    # appendix_graphs()
-    cached_graph_appendix()
+    # cached_graph_appendix()
     # graph_scores(pd.read_pickle("total_df.npy"), "test", score_type_override=["js_dynamic_v_true"])
     # final_data_table(pd.read_pickle("total_df.npy"))
