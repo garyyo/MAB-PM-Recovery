@@ -20,7 +20,7 @@ I have had a lot of trouble installing the prerequisite stuff for WSL, so I will
 
 1. follow this guide to install wsl https://learn.microsoft.com/en-us/windows/wsl/install
 - it should be about as easy as running `wsl --install` in cmd or powershell
-- if you want to access the shell you can run wsl in cmd/powershell, or point your favorite terminal emulator, like hyper, to `C:/Windows/System32/wsl.exe` (and maybe set the shell args to `~`).
+- if you want to access the shell you can run wsl in cmd/powershell (or point your favorite terminal emulator to `C:/Windows/System32/wsl.exe` and maybe set the shell args to `~`).
 2. the proper build tools are probably not installed, so before installing the python requirements you need to install that.
 - run this command `sudo apt-get install build-essential` to install `make` and other essential things. Jericho, a prerequisite library, will not install without it.
 3. you should now be able to install the requirements in the requirements.txt and run the program.
